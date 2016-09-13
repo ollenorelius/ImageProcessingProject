@@ -1,0 +1,11 @@
+%blockproc
+
+close all
+im = imread('im1.bmp');
+
+fun = @(block_struct) dct2(block_struct.data)
+trans = blockproc(im, [8 8], dct2);
+
+imagesc(im);
+figure()
+image(trans.^2*30);
