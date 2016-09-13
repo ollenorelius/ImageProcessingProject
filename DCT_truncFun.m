@@ -14,7 +14,8 @@ function ret = DCT_truncFun(inputM)
      18 22 37 56 68 109 103 77; 24 35 55 64 81 104 113 92;...
      49 64 78 87 103 121 120 101; 72 92 95 98 112 100 103 99];   
     
-    multi = 0.5;
+    global compRatio_DCT;
+    multi = compRatio_DCT;
     trans = multi * trans./qm;
     trans = round(trans).*qm/multi;
     
