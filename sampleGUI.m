@@ -1,28 +1,4 @@
 function varargout = sampleGUI(varargin)
-% SAMPLEGUI MATLAB code for sampleGUI.fig
-%      SAMPLEGUI, by itself, creates a new SAMPLEGUI or raises the existing
-%      singleton*.
-%
-%      H = SAMPLEGUI returns the handle to a new SAMPLEGUI or the handle to
-%      the existing singleton*.
-%
-%      SAMPLEGUI('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in SAMPLEGUI.M with the given input arguments.
-%
-%      SAMPLEGUI('Property','Value',...) creates a new SAMPLEGUI or raises the
-%      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before sampleGUI_OpeningFcn gets called.  An
-%      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to sampleGUI_OpeningFcn via varargin.
-%
-%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
-%      instance to run (singleton)".
-%
-% See also: GUIDE, GUIDATA, GUIHANDLES
-
-% Edit the above text to modify the response to help sampleGUI
-
-% Last Modified by GUIDE v2.5 13-Sep-2016 16:17:46
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -46,25 +22,27 @@ end
 
 % --- Executes just before sampleGUI is made visible.
 function sampleGUI_OpeningFcn(hObject, eventdata, handles, varargin)
-% This function has no output args, see OutputFcn.
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to sampleGUI (see VARARGIN)
+
+global im1 im2 im compMethodStr blockSize compRatio waveletStr;
 
 % Display Input Image
 handles.output = hObject;
-% GLOBAL VARIABLES??
 im1 = imread('sampleImages\Chalmers.jpg');
-
+im2 = imread('sampleImages\Penny.jpg');
+im = im1;
 axes(handles.inputPane)
-image(im1)
+image(im)
 axis off
 axis image
-
 axes(handles.outputPane)
 axis off
 axis image
+
+% Initialise variables
+compMethodStr = 'D';
+blockSize = 4;
+compRatio = 8;
+waveletStr = 'b';
 
 % Choose default command line output for sampleGUI
 handles.output = hObject;
@@ -78,29 +56,22 @@ guidata(hObject, handles);
 
 % --- Outputs from this function are returned to the command line.
 function varargout = sampleGUI_OutputFcn(hObject, eventdata, handles) 
-% varargout  cell array for returning output args (see VARARGOUT);
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
 
-% --- Executes on selection change in popupmenu1.
-function popupmenu1_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+% --- Executes on selection change in inputImage.
+function inputImage_Callback(hObject, eventdata, handles)
 
-% Display Input Image
+% Set current image (im) and display
+global im1 im2 im;
 contents = cellstr(get(hObject,'String'));
 selPicName = contents{get(hObject,'Value')};
 axes(handles.inputPane)
-if strcmp('Chalmers',selPicName) == 1
-    im = imread('sampleImages\Chalmers.jpg');
+if selPicName(1) == 'C'
+    im = im1;
 else
-    im = imread('sampleImages\Penny.jpg');
+    im = im2;
 end
 image(im)
 axis off
@@ -108,36 +79,82 @@ axis image
     
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
+function inputImage_CreateFcn(hObject, eventdata, handles)
 
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-% --- Executes on selection change in popupmenu2.
-function popupmenu2_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+% --- Executes on selection change in compMethod.
+function compMethod_Callback(hObject, eventdata, handles)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu2 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu2
+global compMethodStr;
+contents = cellstr(get(hObject,'String'));
+compMethodStr = contents{get(hObject,'Value')};
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu2_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
+function compMethod_CreateFcn(hObject, eventdata, handles)
 
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function rmsTxt_Callback(hObject, eventdata, handles)
+
+
+% --- Executes during object creation, after setting all properties.
+function rmsTxt_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function compRatTxt_Callback(hObject, eventdata, handles)
+
+global compRatio;
+content = cellstr(get(hObject,'String'));
+compRatio = abs(str2double(content));
+
+
+% --- Executes during object creation, after setting all properties.
+function compRatTxt_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in blockSize.
+function blockSize_Callback(hObject, eventdata, handles)
+
+global blockSize;
+contents = cellstr(get(hObject,'String'));
+blockSize = str2double(contents{get(hObject,'Value')});
+
+
+% --- Executes during object creation, after setting all properties.
+function blockSize_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in wavelet.
+function wavelet_Callback(hObject, eventdata, handles)
+
+global waveletStr;
+contents = cellstr(get(hObject,'String'));
+waveletStr = contents{get(hObject,'Value')};
+
+
+% --- Executes during object creation, after setting all properties.
+function wavelet_CreateFcn(hObject, eventdata, handles)
+
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -145,81 +162,14 @@ end
 
 % !!!!!!!!!!!!!! EXECUTE COMPRESSION !!!!!!!!!!!!!!!!!!
 function compressBtn_Callback(hObject, eventdata, handles)
-% hObject    handle to compressBtn (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-% Read compression type, variables, input image
+global im compMethodStr blockSize compRatio waveletStr;
 
 % Call compression method
+if compMethodStr(1) == 'W' % Wavelet transform
+
+else % DCT
+     % rms = DCT_main(im, comp, showImages) !!! must edit image display in 
+end
 
 % Display output image (outputPane) & RMS error (rmsTxt)
-
-
-
-function rmsTxt_Callback(hObject, eventdata, handles)
-% hObject    handle to rmsTxt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of rmsTxt as text
-%        str2double(get(hObject,'String')) returns contents of rmsTxt as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function rmsTxt_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to rmsTxt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function compRatTxt_Callback(hObject, eventdata, handles)
-% hObject    handle to compRatTxt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of compRatTxt as text
-%        str2double(get(hObject,'String')) returns contents of compRatTxt as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function compRatTxt_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to compRatTxt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes on selection change in popupmenu4.
-function popupmenu4_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu4 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu4
-
-
-% --- Executes during object creation, after setting all properties.
-function popupmenu4_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
