@@ -92,7 +92,6 @@ function compMethod_Callback(hObject, eventdata, handles)
 global compMethodStr;
 contents = cellstr(get(hObject,'String'));
 compMethodStr = contents{get(hObject,'Value')};
-% Set 
 
 
 % --- Executes during object creation, after setting all properties.
@@ -168,10 +167,11 @@ global im compMethodStr blockSize compRatio waveletStr;
 
 % Call compression method
 if compMethodStr(1) == 'W' % Wavelet transform
-    
+    get(handles.compRat)
+    set(hObject,'string','1000')
 else % DCT
-    rms = DCT_main(im, compRatio, 0);
-    set(handles.rmsTxt,'String',num2str(rms))
+%      rms = DCT_main(im, compRatio, 1);
+
 end
 
 % Display output image (outputPane) & RMS error (rmsTxt)
