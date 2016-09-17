@@ -92,7 +92,14 @@ function compMethod_Callback(hObject, eventdata, handles)
 global compMethodStr;
 contents = cellstr(get(hObject,'String'));
 compMethodStr = contents{get(hObject,'Value')};
-% Set 
+if compMethodStr(1) == 'W' % Wavelet transform
+    set(handles.blockSize,'Enable','inactive')
+    set(handles.wavelet,'Enable','on')
+else % DCT
+    set(handles.blockSize,'Enable','on')
+    set(handles.wavelet,'Enable','inactive')
+end
+ 
 
 
 % --- Executes during object creation, after setting all properties.
