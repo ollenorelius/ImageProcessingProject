@@ -1,0 +1,5 @@
+$$$$$$$ TODO $$$$$$$$$$$$
++ Blocproc doesn't work with variable block size
++ Decomp don't work proper
++ New smaller sample images
++ Verify recon completely
