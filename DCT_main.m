@@ -1,16 +1,25 @@
-function rms = DCT_main(im, comp, showImages)
+function [rms, trans_T] = DCT_main(im, comp, showImages, parallel)
 
 global compRatio_DCT;
 compRatio_DCT = comp;
 
-for i = 1:3
-    imPart = im(:,:,i);
-    
-    trans(:,:,i) = blockproc(imPart, [8 8], @DCT_truncFun);
-    
+if parallel
+    parfor i = 1:3
+        imPart = im(:,:,i);
+        
+        trans(:,:,i) = blockproc(imPart, [8 8], @DCT_truncFun);
+        
+    end
+else
+    for i = 1:3
+        imPart = im(:,:,i);
+        
+        trans(:,:,i) = blockproc(imPart, [8 8], @DCT_truncFun);
+        
+    end
 end
+trans_T = uint8(trans);
 if showImages
-    trans_T = uint8(trans);
     imagesc(im);
     figure()
     image(trans_T);

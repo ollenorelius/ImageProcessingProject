@@ -7,19 +7,20 @@ function ret = DCT_truncFun(inputM)
     pad = padarray(inputM.data, [padX, padY], 'symmetric', 'post');
     
     trans = dct2(pad);
-
-    
-    qm = [16 11 10 16 24 40 51 61; 12 12 14 19 26 58 60 55;...
-     14 13 16 24 40 57 69 56; 14 17 22 29 51 87 80 62; ...
-     18 22 37 56 68 109 103 77; 24 35 55 64 81 104 113 92;...
-     49 64 78 87 103 121 120 101; 72 92 95 98 112 100 103 99];   
     
     global compRatio_DCT;
     multi = compRatio_DCT;
-    trans = multi * trans./qm;
-    trans = round(trans).*qm/multi;
     
-    trans = trans;
+    r = reshape(trans, 1,[]);
+    
+    removeCount = 64*((multi-1)/multi);
+    for i = 1:removeCount
+        [~, idx] = min(abs(r));
+        r(idx) = 999999;
+    end
+    r(r==999999) = 0;
+    
+    trans = reshape(r,8,[]);
     
     iTrans = idct2(trans);
     ret = iTrans(1:end-padX,1:end-padY);
