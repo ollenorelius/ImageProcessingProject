@@ -1,9 +1,0 @@
-function coeffArray = WPT_decompose(imPart,decompHi,decompLo)
-
-[noRow,noCol] = size(imPart);
-coeffArray = zeros(size(noRow,noCol));
-for row = 1:noRow
-   coeffArray(row,:) = conv( 
-end
-
-end

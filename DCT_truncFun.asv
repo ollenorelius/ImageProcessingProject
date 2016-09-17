@@ -13,7 +13,9 @@ function ret = DCT_truncFun(inputM)
     
     r = reshape(trans, 1,[]);
     
-    removeCount = 64*((multi-1)/multi);
+    comp = 64;
+    
+    removeCount = 64*((comp-1)/comp);
     for i = 1:removeCount
         [~, idx] = min(abs(r));
         r(idx) = 999999;
