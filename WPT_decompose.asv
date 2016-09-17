@@ -1,0 +1,13 @@
+function coeffArray = WPT_decompose(imPart,decompHi,decompLo)
+
+[noRow,noCol] = size(imPart);
+% Rows
+for row = 1:noRow
+   convRH = conv(decompHi,imPart(row,:));
+   hiCoeffH(row,:) = downsample(convRH,2);
+   convRL = conv(decompLo,imPart(row,:));
+   loCoeffH(row,:) = downsample(convRL,2);
+end
+
+
+end
