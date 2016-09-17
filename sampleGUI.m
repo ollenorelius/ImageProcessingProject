@@ -174,11 +174,18 @@ function compressBtn_Callback(hObject, eventdata, handles)
 global im compMethodStr blockSize compRatio waveletStr;
 
 % Call compression method
-if compMethodStr(1) == 'W' % Wavelet transform
-    
-else % DCT
-    rms = DCT_main(im, compRatio, 0);
-    set(handles.rmsTxt,'String',num2str(rms))
+if compMethodStr(1) == 'W' 
+    [rms,reconIm] = WPT_main(im, compRatio, waveletStr);
+else 
+    parallel = 0;
+    [rms,reconIm] = DCT_main(im, compRatio, blockSize, 0, parallel);
 end
 
-% Display output image (outputPane) & RMS error (rmsTxt)
+% Display output image (outputPane) & RMS error
+set(handles.rmsTxt,'String',num2str(rms))
+axes(handles.outputPane)
+image(reconIm)
+axis off
+axis image
+
+

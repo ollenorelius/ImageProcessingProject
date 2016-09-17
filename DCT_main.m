@@ -1,20 +1,21 @@
-function [rms, trans_T] = DCT_main(im, comp, showImages, parallel)
+function [rms, trans_T] = DCT_main(im, comp, blockSize, showImages, parallel)
 
-global compRatio_DCT;
+global compRatio_DCT blckSze;
 compRatio_DCT = comp;
+blckSze = blockSize;
 
 if parallel
     parfor i = 1:3
         imPart = im(:,:,i);
         
-        trans(:,:,i) = blockproc(imPart, [8 8], @DCT_truncFun);
+        trans(:,:,i) = blockproc(imPart, [blockSize blockSize], @DCT_truncFun);
         
     end
 else
     for i = 1:3
         imPart = im(:,:,i);
         
-        trans(:,:,i) = blockproc(imPart, [8 8], @DCT_truncFun);
+        trans(:,:,i) = blockproc(imPart, [blockSize blockSize], @DCT_truncFun);
         
     end
 end
