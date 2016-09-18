@@ -1,11 +1,9 @@
-function coeffArray = WPT_decompose(imPart,decompHi,decompLo)
+function coeffArray = WPT_decompose(imPart,decompHi,decompLo,noLevels)
 
-% 1 Level Decomp
-horzCoeff = WPT_convRow(imPart,decompHi,decompLo);
-coeffArray = WPT_convCol(horzCoeff,decompHi,decompLo);
-
-% Plot!! Can remove later
-figure
-imshow(coeffArray)
+coeffArray = imPart;
+for levels = 1:noLevels
+    horzCoeff = WPT_convRow(coeffArray,decompHi,decompLo);
+    coeffArray = WPT_convCol(horzCoeff,decompHi,decompLo);
+end
 
 end

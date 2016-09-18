@@ -42,7 +42,7 @@ axis image
 compMethodStr = 'D';
 blockSize = 4;
 compRatio = 8;
-waveletStr = 'b';
+waveletStr = 'bior4.4';
 
 % Choose default command line output for sampleGUI
 handles.output = hObject;
