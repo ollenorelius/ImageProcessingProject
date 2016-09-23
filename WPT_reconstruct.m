@@ -1,12 +1,15 @@
 function image_out = WPT_reconstruct(image_in, wave_lo, wave_hi, levels)
 
-Q1 = image_in(1:end/2, 1:end/2);
+Q1 = image_in(1:end/2, 1:end/2);  %Split input into quarters
 Q2 = image_in(1:end/2, end/2+1:end);
 Q3 = image_in(end/2+1:end, 1:end/2);
 Q4 = image_in(end/2+1:end, end/2+1:end);
 
 if(levels > 1)
-    Q1 = WPT_reconstruct(imag, wave_lo, wave_hi, levels-1);
+    Q1 = WPT_reconstruct(Q1, wave_lo, wave_hi, levels-1);
+    Q2 = WPT_reconstruct(Q2, wave_lo, wave_hi, levels-1);
+    Q3 = WPT_reconstruct(Q3, wave_lo, wave_hi, levels-1);
+    Q4 = WPT_reconstruct(Q4, wave_lo, wave_hi, levels-1);
 end
 
 Q1 = WPT_upsampleRows(Q1);

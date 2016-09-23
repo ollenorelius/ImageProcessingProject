@@ -4,7 +4,7 @@ global compRatio_DCT blckSze;
 compRatio_DCT = comp;
 blckSze = blockSize;
 
-if parallel
+if(parallel == true)
     parfor i = 1:3
         imPart = im(:,:,i);
         

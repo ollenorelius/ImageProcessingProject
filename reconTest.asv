@@ -1,0 +1,8 @@
+[~, c, decon] = WPT_main(imread('im2.jpg'), 5, 'bior4.4');
+
+[Rf,Df] = biorwavf(waveletStr);
+[decompLo,decompHi,reconLo,reconHi] = biorfilt(Df,Rf);
+
+picRecon = WPT_reconstruct(decon, reconLo, reconHi, 1);
+
+image(picRecon)
