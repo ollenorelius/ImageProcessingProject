@@ -3,8 +3,8 @@ function image = WPT_removeSmallest(image, ratio)
 imageX = size(image,1);
 imageY = size(image,2);
 
-r = reshape(image,1,[])
-removeCount = 64*((ratio-1)/ratio);
+r = reshape(image,1,[]);
+removeCount = (imageX*imageY)*((ratio-1)/ratio);
 for i = 1:removeCount
     [~, idx] = min(abs(r));
     r(idx) = 999999;
