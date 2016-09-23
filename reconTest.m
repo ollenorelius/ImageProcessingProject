@@ -1,7 +1,7 @@
 waveletStr = 'bior4.4';
 inpIm = imread('dank.jpg');
 
-[~, ~, decon] = WPT_main(inpIm, 1, waveletStr);
+[~, ~, decon] = WPT_main(inpIm, 5, waveletStr);
 
 [Rf,Df] = biorwavf(waveletStr);
 [decompLo,decompHi,reconLo,reconHi] = biorfilt(Df,Rf);

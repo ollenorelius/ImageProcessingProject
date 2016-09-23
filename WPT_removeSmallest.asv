@@ -5,6 +5,11 @@ imageY = size(image,2);
 
 r = reshape(image,1,[]);
 removeCount = (imageX*imageY)*((ratio-1)/ratio)+noPadPixels;
-[~, I] = sort(r);
-r(I(1:removeCount)) = 0;
+for i = 1:removeCount
+    sort
+    [~, idx] = min(abs(r));
+    r(idx) = 999999;
+end
+r(r==999999) = 0;
+
 image = reshape(r, imageX, imageY);
