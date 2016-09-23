@@ -24,7 +24,7 @@ if showImages
     imagesc(im);
     figure()
     image(trans_T);
-    figure()
+    figure();
     error = abs(double(im)-trans);
     imagesc(uint8(error))
 end

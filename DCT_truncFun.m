@@ -1,9 +1,9 @@
 function ret = DCT_truncFun(inputM)
     
-    global compRatio_DCT blckSize;
+    global compRatio_DCT blckSze;
     inputM.data;
     
-    blockSize = blckSize;
+    blockSize = blckSze;
     padX = blockSize-size(inputM.data,1);
     padY = blockSize-size(inputM.data,2);
     
