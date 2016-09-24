@@ -1,8 +1,8 @@
 function image_out = WPT_reconstruct(image_in, wave_lo, wave_hi, levels)
 
 Q1 = image_in(1:end/2, 1:end/2);  %Split input into quarters
-Q2 = image_in(1:end/2, end/2+1:end);
-Q3 = image_in(end/2+1:end, 1:end/2);
+Q3 = image_in(1:end/2, end/2+1:end);
+Q2 = image_in(end/2+1:end, 1:end/2);
 Q4 = image_in(end/2+1:end, end/2+1:end);
 
 if(levels > 1)
@@ -11,6 +11,8 @@ if(levels > 1)
     Q3 = WPT_reconstruct(Q3, wave_lo, wave_hi, levels-1);
     Q4 = WPT_reconstruct(Q4, wave_lo, wave_hi, levels-1);
 end
+
+
 
 Q1 = WPT_upsampleRows(Q1);
 Q2 = WPT_upsampleRows(Q2);
@@ -47,4 +49,4 @@ for i = 1:size(Qh,1)
     Qh(i,:) = conv(Qh(i,:),wave_hi,'same');
 end
 
-image_out = Ql+Qh;  
+image_out = (Ql+Qh);  
