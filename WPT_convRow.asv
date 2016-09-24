@@ -5,10 +5,10 @@ hiCoeff = zeros(noRowIn,noColIn/2);
 loCoeff = hiCoeff;
 
 for row = 1:noRowIn
-   shiftCoeffs = circshift(inCoeffs(row,:),[0,2]);
-   convRH = conv(shiftCoeffs,decompHi,'same');
+   shiftCoeff = circshift(inCoeffs(row,:),2);
+   convRH = conv(inCoeffs(row,:),decompHi,'same');
    hiCoeff(row,:) = downsample(convRH,2,1);
-   convRL = conv(shiftCoeffs,decompLo,'same');
+   convRL = conv(inCoeffs(row,:),decompLo,'same');
    loCoeff(row,:) = downsample(convRL,2,1);
 end
 

@@ -1,7 +1,7 @@
 close all;
 waveletStr = 'rbio6.8';
 inpIm = imread('dank.jpg');
-nLevels = 5;
+nLevels = 3;
 
 
 [~, ~, decon] = WPT_main(inpIm, 1, waveletStr, nLevels);
