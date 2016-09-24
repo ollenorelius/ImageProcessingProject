@@ -27,10 +27,13 @@ errorSq = mean(mean(mean(errorSq)));
 rms = sqrt(errorSq);
 
 figure(1)
-imagesc(coeffLayer)
+imagesc(coeffIm)
 title('Wavelet Coefficients')
 figure(2)
-imagesc(comprsdCoeff)
+imagesc(comprsdIm)
 title('Compressed wavelet coefficients')
+figure(3)
+imagesc(reconIm)
+title('Reconstructed image')
 
 end
