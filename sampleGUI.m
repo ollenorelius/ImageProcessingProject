@@ -23,7 +23,7 @@ end
 % --- Executes just before sampleGUI is made visible.
 function sampleGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
-global im1 im2 im compMethodStr blockSize compRatio waveletStr;
+global im1 im2 im compMethodStr blockSize compRatio waveletStr noLevels;
 
 % Display Input Image
 handles.output = hObject;
@@ -43,6 +43,8 @@ compMethodStr = 'D';
 blockSize = 4;
 compRatio = 8;
 waveletStr = 'bior4.4';
+noLevels = 3;
+
 
 % Choose default command line output for sampleGUI
 handles.output = hObject;
@@ -94,10 +96,12 @@ contents = cellstr(get(hObject,'String'));
 compMethodStr = contents{get(hObject,'Value')};
 if compMethodStr(1) == 'W' % Wavelet transform
     set(handles.blockSize,'Enable','inactive')
+    set(handles.noLevels,'Enable','on')
     set(handles.wavelet,'Enable','on')
 else % DCT
     set(handles.blockSize,'Enable','on')
     set(handles.wavelet,'Enable','inactive')
+    set(handles.noLevels,'Enable','inactive')
 end
  
 
@@ -171,11 +175,11 @@ end
 % !!!!!!!!!!!!!! EXECUTE COMPRESSION !!!!!!!!!!!!!!!!!!
 function compressBtn_Callback(hObject, eventdata, handles)
 
-global im compMethodStr blockSize compRatio waveletStr;
+global im compMethodStr blockSize compRatio waveletStr noLevels;
 
 % Call compression method
 if compMethodStr(1) == 'W' 
-    [rms,reconIm] = WPT_main(im, compRatio, waveletStr);
+    [rms,reconIm] = WPT_main(im, compRatio, waveletStr, noLevels);
 else 
     parallel = 0;
     [rms,reconIm] = DCT_main(im, compRatio, blockSize, 0, parallel);
@@ -189,3 +193,17 @@ axis off
 axis image
 
 
+
+function noLevels_Callback(hObject, eventdata, handles)
+
+global noLevels;
+content = cellstr(get(hObject,'String'));
+noLevels = round(abs(str2double(content)));
+
+
+
+function noLevels_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
