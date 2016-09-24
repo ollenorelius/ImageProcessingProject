@@ -1,6 +1,6 @@
-function [rms,reconIm,comprsdIm] = WPT_main(ogIm,comp,waveletStr)
+function [rms,reconIm,comprsdIm] = WPT_main(ogIm,comp,waveletStr, noLevels)
 
-noLevels = 1;
+%noLevels = 2;
 [Rf,Df] = biorwavf(waveletStr);
 [decompLo,decompHi,reconLo,reconHi] = biorfilt(Df,Rf);
 [padIm,noPadPixels] = WPT_padPower2(ogIm);
