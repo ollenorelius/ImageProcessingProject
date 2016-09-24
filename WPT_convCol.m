@@ -1,16 +1,14 @@
-function outCoeffs = WPT_convCol(inCoeffs,decompHi,decompLo)
+function hiCoeff = WPT_convCol(inCoeffs)
 
+global decompH;
+
+inCoeffs = inCoeffs.data;
 [noRowIn,noColIn] = size(inCoeffs);
 hiCoeff = zeros(noRowIn/2,noColIn);
-loCoeff = hiCoeff;
 
 for col = 1:noColIn
-   convCH = conv(inCoeffs(:,col),decompHi','same');
+   convCH = conv(inCoeffs(:,col),decompH','same');
    hiCoeff(:,col) = downsample(convCH,2,1);
-   convRL = conv(inCoeffs(:,col),decompLo','same');
-   loCoeff(:,col) = downsample(convRL,2,1);
 end
-
-outCoeffs = vertcat(loCoeff,hiCoeff);
 
 end
