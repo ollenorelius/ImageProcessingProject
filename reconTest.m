@@ -1,10 +1,12 @@
 close all;
 waveletStr = 'rbio6.8';
 inpIm = imread('dank.jpg');
-nLevels = 3;
+nLevels = 4;
 
+xSize = size(inpIm,2);
+ySize = size(inpIm,1);
 
-[~, ~, decon] = WPT_main(inpIm, 1, waveletStr, nLevels);
+[rms, ~, decon] = WPT_main(inpIm, 1, waveletStr, nLevels);
 
 [Rf,Df] = biorwavf(waveletStr);
 [decompLo,decompHi,reconLo,reconHi] = biorfilt(Df,Rf);
@@ -13,7 +15,7 @@ for i = 1:3
     picRecon(:,:,i) = WPT_reconstruct(decon(:,:,i), reconLo, reconHi, nLevels);
 end
 figure()
-imagesc(picRecon/max(max(max(picRecon-min(min(min(picRecon))))))*3)
+imagesc(uint8(picRecon(1:ySize,1:xSize,:)))
 title('recon')
 figure();
 

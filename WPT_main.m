@@ -32,8 +32,6 @@ title('Wavelet Coefficients')
 figure(2)
 imshow(comprsdIm)
 title('Compressed wavelet coefficients')
-figure(3)
-imagesc(reconLayer)
-imshow('Reconstructed layer')
+
 
 end
