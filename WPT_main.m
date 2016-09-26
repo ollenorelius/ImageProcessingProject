@@ -10,7 +10,7 @@ coeffIm = reconIm;
 comprsdIm = reconIm;
 errorIm = reconIm;
 
-for i = 1:noChannel
+parfor i = 1:noChannel
    imLayer = double(padIm(:,:,i));
    coeffLayer = WPT_decompose(imLayer,decompHi,decompLo,noLevels); 
    comprsdCoeff = WPT_removeSmallest(coeffLayer, comp, noPadPixels, ogDim);
