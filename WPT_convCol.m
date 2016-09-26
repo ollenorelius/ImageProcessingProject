@@ -4,13 +4,16 @@ function outCoeffs = WPT_convCol(inCoeffs,decompHi,decompLo)
 hiCoeff = zeros(noRowIn/2,noColIn);
 loCoeff = hiCoeff;
 
-for col = 1:noColIn
-   shiftCoeffs = circshift(inCoeffs(:,col),[2,0]);
-   convCH = conv(shiftCoeffs,decompHi','same');
-   hiCoeff(:,col) = downsample(convCH,2,1);
-   convRL = conv(shiftCoeffs,decompLo','same');
-   loCoeff(:,col) = downsample(convRL,2,1);
+convCH = zeros(noRowIn,noColIn);
+convRL = zeros(noRowIn,noColIn);
+
+shiftCoeffs = circshift(inCoeffs,[2,0]);
+for col = 1:noColIn   
+   convCH(:,col) = conv(shiftCoeffs(:,col),decompHi','same');   
+   convRL(:,col) = conv(shiftCoeffs(:,col),decompLo','same');   
 end
+hiCoeff = downsample(convCH,2,1);
+loCoeff = downsample(convRL,2,1);
 
 outCoeffs = vertcat(loCoeff,hiCoeff);
 

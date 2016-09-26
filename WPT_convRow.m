@@ -4,14 +4,17 @@ function outCoeffs = WPT_convRow(inCoeffs,decompHi,decompLo)
 hiCoeff = zeros(noRowIn,noColIn/2);
 loCoeff = hiCoeff;
 
-for row = 1:noRowIn
-   shiftCoeffs = circshift(inCoeffs(row,:),[0,2]);
-   convRH = conv(shiftCoeffs,decompHi,'same');
-   hiCoeff(row,:) = downsample(convRH,2,1);
-   convRL = conv(shiftCoeffs,decompLo,'same');
-   loCoeff(row,:) = downsample(convRL,2,1);
-end
+shiftCoeffs = circshift(inCoeffs,[0,2]);
 
+convRH = zeros(noRowIn,noColIn);
+convRL = zeros(noRowIn,noColIn);
+
+for row = 1:noRowIn   
+   convRH(row,:) = conv(shiftCoeffs(row,:),decompHi,'same');   
+   convRL(row,:) = conv(shiftCoeffs(row,:),decompLo,'same');   
+end
+hiCoeff = downsample(convRH',2,1)';
+loCoeff = downsample(convRL',2,1)';
 outCoeffs = horzcat(loCoeff,hiCoeff);
 
 end
