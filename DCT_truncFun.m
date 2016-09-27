@@ -14,14 +14,9 @@ function ret = DCT_truncFun(inputM)
     multi = compRatio_DCT;
     
     r = reshape(trans, 1,[]);
-    
-    removeCount = (blockSize^2)*((multi-1)/multi);
-    for i = 1:removeCount
-        [~, idx] = min(abs(r));
-        r(idx) = 999999;
-    end
-    r(r==999999) = 0;
-    
+    removeCount = round((blockSize^2)*((multi-1)/multi));
+    [~, idx] = sort(abs(r));
+    r(idx(1:removeCount)) = 0;
     trans = reshape(r,blockSize,[]);
     
     iTrans = idct2(trans);

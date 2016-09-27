@@ -5,6 +5,7 @@ function [rms,reconIm,comprsdIm] = WPT_main(ogIm,comp,waveletStr, noLevels)
 [padIm,noPadPixels] = WPT_padPower2(ogIm);
 ogDim = size(ogIm);
 noChannel = size(padIm,3);
+
 reconIm = zeros(size(padIm));
 coeffIm = reconIm;
 comprsdIm = reconIm;
@@ -26,11 +27,13 @@ errorSq = errorIm.^2;
 errorSq = mean(mean(mean(errorSq)));
 rms = sqrt(errorSq);
 
+reconIm = uint8(reconIm(1:ogIm(1),1:ogIm(2),:));
+
 figure(1)
-imshow(coeffIm)
+imagesc(coeffIm)
 title('Wavelet Coefficients')
 figure(2)
-imshow(comprsdIm)
+imagesc(comprsdIm)
 title('Compressed wavelet coefficients')
 
 
