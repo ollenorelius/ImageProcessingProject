@@ -27,7 +27,7 @@ errorSq = errorIm.^2;
 errorSq = mean(mean(mean(errorSq)));
 rms = sqrt(errorSq);
 
-reconIm = uint8(reconIm(1:ogIm(1),1:ogIm(2),:));
+%reconIm = uint8(reconIm(1:ogIm(1),1:ogIm(2),:));
 
 figure(1)
 imagesc(coeffIm)
