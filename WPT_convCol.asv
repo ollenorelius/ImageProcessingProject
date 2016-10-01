@@ -4,11 +4,11 @@ function outCoeffs = WPT_convCol(inCoeffs,decompHi,decompLo)
 hiCoeff = zeros(noRowIn/2,noColIn);
 loCoeff = hiCoeff;
 
-%convCH = zeros(noRowIn,noColIn);
-%convRL = zeros(noRowIn,noColIn);
+convCH = zeros(noRowIn,noColIn);
+convRL = zeros(noRowIn,noColIn);
 
 %shiftCoeffs = circshift(inCoeffs,[2,0]);
-shiftCoeffs = wextend('addrow','per',inCoeffs,ceil(size(decompHi,2)/2));
+shiftCoeffs = padarray(inCoeffs,[ceil(size(decompHi,2)/2),0]);
 
 for col = 1:noColIn   
    convCH(:,col) = conv(shiftCoeffs(:,col),decompHi','valid');   

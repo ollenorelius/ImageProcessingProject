@@ -35,32 +35,27 @@ Q4 = WPT_upsampleRows(Q4);
 % Q2 = Qb(1:end/2,:);
 % Q4 = Qb(end/2+1:end,:);
 
-padSize = ceil(size(wave_lo,2)/2);
-
-Q1 = wextend('addrow','per',Q1,padSize);
-Q2 = wextend('addrow','per',Q2,padSize);
-Q3 = wextend('addrow','per',Q3,padSize);
-Q4 = wextend('addrow','per',Q4,padSize);
+Q1 = wextend('addrow','per',Q1,ceil(size(wave_lo,2)/2));
+Q2 = wextend('addrow','per',Q2,ceil(size(wave_lo,2)/2));
+Q3 = wextend('addrow','per',Q3,ceil(size(wave_lo,2)/2));
+Q4 = wextend('addrow','per',Q4,ceil(size(wave_lo,2)/2));
 
 for i = 1:size(Q1,2)
    q1(:,i) = conv(Q1(:,i),wave_lo);
 end
-Q1 = q1(padSize*2:size(Q1,1)-1,:);
+Q1 = q1(
 
 for i = 1:size(Q2,2)
-   q2(:,i) = conv(Q2(:,i),wave_hi);
+   Q2(:,i) = conv(Q2(:,i),wave_hi,'valid');
 end
-Q2 = q2(padSize*2:size(Q2,1)-1,:);
 
 for i = 1:size(Q3,2)
-   q3(:,i) = conv(Q3(:,i),wave_lo);
+   Q3(:,i) = conv(Q3(:,i),wave_lo,'valid');
 end
-Q3 = q3(padSize*2:size(Q3,1)-1,:);
 
 for i = 1:size(Q4,2)
-   q4(:,i) = conv(Q4(:,i),wave_hi);
+   Q4(:,i) = conv(Q4(:,i),wave_hi,'valid');
 end
-Q4 = q4(padSize*2:size(Q4,1)-1,:);
 
 Ql = Q1+Q2;
 Qh = Q3+Q4;
@@ -68,17 +63,15 @@ Qh = Q3+Q4;
 Ql = WPT_upsampleColumns(Ql);
 Qh = WPT_upsampleColumns(Qh);
 
-Ql = wextend('addcol','per',Ql,padSize);
-Qh = wextend('addcol','per',Qh,padSize);
+Ql = wextend('addcol','per',Ql,ceil(size(wave_lo,2)/2));
+Qh = wextend('addcol','per',Qh,ceil(size(wave_lo,2)/2));
 
 for i = 1:size(Ql,1)
-    ql(i,:) = conv(Ql(i,:),wave_lo);
+    Ql(i,:) = conv(Ql(i,:),wave_lo,'valid');
 end
-Ql = ql(:,padSize*2:size(Ql,2)-1);
 
 for i = 1:size(Qh,1)
-    qh(i,:) = conv(Qh(i,:),wave_hi);
+    Qh(i,:) = conv(Qh(i,:),wave_hi,'valid');
 end
-Qh = qh(:,padSize*2:size(Qh,2)-1);
 
 image_out = (Ql+Qh);  
