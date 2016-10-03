@@ -8,7 +8,7 @@ loCoeff = hiCoeff;
 %convRL = zeros(noRowIn,noColIn);
 
 %shiftCoeffs = circshift(inCoeffs,[2,0]);
-shiftCoeffs = wextend('addrow','per',inCoeffs,ceil(size(decompHi,2)/2));
+shiftCoeffs = wextend('addrow','sp0',inCoeffs,ceil(size(decompHi,2)/2));
 
 for col = 1:noColIn   
    convCH(:,col) = conv(shiftCoeffs(:,col),decompHi','valid');   

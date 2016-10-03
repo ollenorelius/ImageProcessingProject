@@ -5,7 +5,7 @@ hiCoeff = zeros(noRowIn,noColIn/2);
 loCoeff = hiCoeff;
 
 %shiftCoeffs = circshift(inCoeffs,[0,2]);
-shiftCoeffs = wextend('addcol','per',inCoeffs,ceil(size(decompHi,2)/2));
+shiftCoeffs = wextend('addcol','sp0',inCoeffs,ceil(size(decompHi,2)/2));
 
 %convRH = zeros(noRowIn,noColIn);
 %convRL = zeros(noRowIn,noColIn);

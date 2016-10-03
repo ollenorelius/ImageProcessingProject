@@ -37,10 +37,12 @@ Q4 = WPT_upsampleRows(Q4);
 
 padSize = ceil(size(wave_lo,2)/2);
 
-Q1 = wextend('addrow','per',Q1,padSize);
-Q2 = wextend('addrow','per',Q2,padSize);
-Q3 = wextend('addrow','per',Q3,padSize);
-Q4 = wextend('addrow','per',Q4,padSize);
+extMode = 'sp0';
+
+Q1 = wextend('addrow',extMode,Q1,padSize);
+Q2 = wextend('addrow',extMode,Q2,padSize);
+Q3 = wextend('addrow',extMode,Q3,padSize);
+Q4 = wextend('addrow',extMode,Q4,padSize);
 
 for i = 1:size(Q1,2)
    q1(:,i) = conv(Q1(:,i),wave_lo);
@@ -68,8 +70,8 @@ Qh = Q3+Q4;
 Ql = WPT_upsampleColumns(Ql);
 Qh = WPT_upsampleColumns(Qh);
 
-Ql = wextend('addcol','per',Ql,padSize);
-Qh = wextend('addcol','per',Qh,padSize);
+Ql = wextend('addcol',extMode,Ql,padSize);
+Qh = wextend('addcol',extMode,Qh,padSize);
 
 for i = 1:size(Ql,1)
     ql(i,:) = conv(Ql(i,:),wave_lo);

@@ -1,14 +1,16 @@
 close all;
 tic
 waveletStr = 'bior4.4';
-inpIm = imread('dank.jpg');
 %inpIm = imread('im2.jpg');
+inpIm = imread('glow.tif');
+%inpiIm = rgb2gray(inpIm);
 nLevels = 5;
+comp = 100;
 
 xSize = size(inpIm,2);
 ySize = size(inpIm,1);
 
-[rms, picRecon, decon] = WPT_main(inpIm, 100, waveletStr, nLevels);
+[rms, picRecon, decon] = WPT_main(inpIm, comp, waveletStr, nLevels);
 
 [Rf,Df] = biorwavf(waveletStr);
 [decompLo,decompHi,reconLo,reconHi] = biorfilt(Df,Rf);
