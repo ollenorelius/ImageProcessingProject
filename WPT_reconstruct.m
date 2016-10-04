@@ -37,7 +37,7 @@ Q4 = WPT_upsampleRows(Q4);
 
 padSize = ceil(size(wave_lo,2)/2);
 
-extMode = 'sp0';
+extMode = 'symw';
 
 Q1 = wextend('addrow',extMode,Q1,padSize);
 Q2 = wextend('addrow',extMode,Q2,padSize);
