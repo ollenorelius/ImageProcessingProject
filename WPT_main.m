@@ -14,15 +14,18 @@ comprsdIm = reconIm;
 errorIm = reconIm;
 
 for i = 1:noChannel
-   imLayer = double(padIm(:,:,i));
-   coeffLayer = WPT_decompose(imLayer,decompHi,decompLo,noLevels); 
+   imLayer(:,:,i) = double(padIm(:,:,i));
+   coeffLayer(:,:,i) = WPT_decompose(imLayer(:,:,i),decompHi,decompLo,noLevels); 
+end
    comprsdCoeff = WPT_removeSmallest(coeffLayer, comp, noPadPixels, ogDim);
-   reconLayer = WPT_reconstruct(comprsdCoeff,reconLo,reconHi,noLevels);
+   
+for i = 1:noChannel
+   reconLayer = WPT_reconstruct(comprsdCoeff(:,:,i),reconLo,reconHi,noLevels);
 
    reconIm(:,:,i) = reconLayer;
-   errorIm(:,:,i) = imLayer-reconLayer;
-   coeffIm(:,:,i) = coeffLayer;
-   comprsdIm(:,:,i) = comprsdCoeff;
+   errorIm(:,:,i) = imLayer(:,:,i)-reconLayer;
+   coeffIm(:,:,i) = coeffLayer(:,:,i);
+   comprsdIm(:,:,i) = comprsdCoeff(:,:,i);
 end
 
 errorSq = errorIm.^2;

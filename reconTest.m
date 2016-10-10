@@ -3,7 +3,7 @@ tic
 waveletStr = 'bior4.4';
 inpIm = imread('glow.tif');
 %inpIm = rgb2gray(inpIm);
-nLevels = 2;
+nLevels = 5;
 comp = 50;
 
 xSize = size(inpIm,2);
