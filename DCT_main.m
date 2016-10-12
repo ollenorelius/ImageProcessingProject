@@ -10,7 +10,7 @@ oY = size(im,2);
 
 im = padarray(im, [padX, padY], 'symmetric', 'post');
 
-im = im(:,:,1);
+im = rgb2gray(im);
 
 nChan = size(im,3);
 
@@ -83,12 +83,12 @@ if showImages
     imagesc(im);
     figure()
     imagesc(imRec);
-    imwrite(imRec, gray(255), 'imDump/DCT_4x4_8xc.png');
+    imwrite(imRec, gray(255), 'imDump/DCT_8x8_8xc.png');
     figure()
     error = abs(im-imRec);
     imagesc(uint8(error))
 end
 error = abs(im-imRec);
-rms = sqrt(mean(mean(mean(error.^2))));
+rms = sqrt(mean(mean(mean(error.^2))))
 
 end
