@@ -1,9 +1,14 @@
-function [rms, trans_T] = DCT_main(im, comp, blockSize, showImages, parallel)
+function [rms, trans_T] = DCT_main(imName, comp, blockSize, showImages, parallel)
 
+im = imread(imName);
 close all
 
 padX = mod(size(im,1), blockSize);
 padY = mod(size(im,2), blockSize);
+
+global compR
+
+compR = comp;
 
 oX = size(im,1);
 oY = size(im,2);
@@ -39,14 +44,14 @@ if(parallel == true) %Quantization
     parfor i = 1:nChan
         transP = trans(:,:,i);
         
-        trans(:,:,i) = comp.*round(blockproc(transP./comp, [blockSize blockSize], compression));
+        trans(:,:,i) = round(blockproc(transP, [blockSize blockSize], compression));
         
     end
 else
     for i = 1:nChan
         transP = trans(:,:,i);
       
-        trans(:,:,i) = comp.*round(blockproc(transP./comp, [blockSize blockSize], compression));
+        trans(:,:,i) = round(blockproc(transP, [blockSize blockSize], compression));
         
     end
 end
@@ -83,12 +88,13 @@ if showImages
     imagesc(im);
     figure()
     imagesc(imRec);
-    imwrite(imRec, gray(255), 'imDump/DCT_8x8_8xc.png');
+    
     figure()
     error = abs(im-imRec);
     imagesc(uint8(error))
 end
+%imwrite(imRec, gray(256), sprintf('imDump/DCT_%ix%i_%ixc_%s.png', blockSize, blockSize, comp, imName));
 error = abs(im-imRec);
-rms = sqrt(mean(mean(mean(error.^2))))
+rms = sqrt(mean(mean(mean(error.^2))));
 
 end

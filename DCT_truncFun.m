@@ -1,7 +1,7 @@
 function ret = DCT_truncFun(inputM)
     blockSize = size(inputM.data,1);
     
-    compR = 10;
+    %compR = 8;
     
     r = reshape(inputM.data, 1,[]);
     removeCount = round((blockSize^2)*((compR-1)/compR));
