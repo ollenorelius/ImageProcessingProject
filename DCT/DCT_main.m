@@ -12,8 +12,6 @@ oY = size(im,2);
 
 im = padarray(im, [padX, padY], 'symmetric', 'post');
 
-im = rgb2gray(im);
-
 nChan = size(im,3);
 
 if(parallel == true) %Decomposition
@@ -81,13 +79,17 @@ calcComp = nnZero/(oX*oY)
 
 trans_T = uint8(trans);
 if showImages
+    figure()
     imagesc(im);
+    title('Original image');
     figure()
     imagesc(imRec);
+    title('reconstructed image')
     
     figure()
     error = abs(im-imRec);
     imagesc(uint8(error))
+    title('error')
 end
 %imwrite(imRec, gray(256), sprintf('imDump/DCT_%ix%i_%ixc_%s.png', blockSize, blockSize, comp, imName));
 error = abs(im-imRec);

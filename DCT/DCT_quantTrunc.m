@@ -11,5 +11,5 @@ trans = inputM.data;  %trans as in transformed data
 global compR;
 trans = trans ./ (qm*compR); %divide by quantization matrix scaled with compression factor
 
-ret = (qm).*round(trans); %round (quantize), scale back and return
+ret = (qm*compR).*round(trans); %round (quantize), scale back and return
 end
