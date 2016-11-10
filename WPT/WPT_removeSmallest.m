@@ -17,5 +17,8 @@ v = reshape(vals,1,[]);
 removeCount = round((ogDim(1)*ogDim(2))*((ratio-1)/ratio))+noPadPixels;
 fprintf('Removing %i pixels (%i including padding) from image of %i (%i including padded)\n', removeCount-noPadPixels, removeCount, ogDim(1)*ogDim(2), imageX*imageY);
 [~, I] = sort(v);
-
-image(I(1:removeCount)) = 0;
+for iChan = 1:nChannels
+    layer = image(:,:,iChan);
+    layer(I(1:removeCount)) = 0;
+    image(:,:,iChan) = layer;
+end
