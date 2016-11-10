@@ -39,7 +39,6 @@ before = nextpow2(size(unique(round(reshape(trans,1,[]))),2));
 before = before * size(find(trans),1);
 
 compression = @DCT_quantTrunc;
-%compression = @DCT_truncFun;
 if(parallel == true) %Quantization
     parfor i = 1:nChan
         transP = trans(:,:,i);

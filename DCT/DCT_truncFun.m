@@ -1,4 +1,4 @@
-function ret = DCT_truncFun(inputM)
+    function ret = DCT_truncFun(inputM)
     blockSize = size(inputM.data,1);
     
     %compR = 8;
