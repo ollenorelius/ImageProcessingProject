@@ -23,7 +23,8 @@ end
 % --- Executes just before sampleGUI is made visible.
 function sampleGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
-global im1 im2 im3 im4 im5 im6 im compMethodStr blockSize compRatio waveletStr noLevels;
+global im1 im2 im3 im4 im5 im6 im compMethodStr blockSize compRatio ...
+    waveletStr noLevels quality;
 
 % Display Input Image
 handles.output = hObject;
@@ -48,7 +49,7 @@ blockSize = 4;
 compRatio = 8;
 waveletStr = 'bior4.4';
 noLevels = 3;
-
+quality = 1;
 
 % Choose default command line output for sampleGUI
 handles.output = hObject;
@@ -187,14 +188,14 @@ end
 % !!!!!!!!!!!!!! EXECUTE COMPRESSION !!!!!!!!!!!!!!!!!!
 function compressBtn_Callback(hObject, eventdata, handles)
 
-global im compMethodStr blockSize compRatio waveletStr noLevels;
+global im compMethodStr blockSize compRatio waveletStr noLevels quality;
 
 % Call compression method
 if compMethodStr(1) == 'W' 
     [rms,reconIm] = WPT_main(im, compRatio, waveletStr, noLevels);
 else 
     parallel = 0;
-    [rms,reconIm] = DCT_main(im, compRatio, blockSize, 0, parallel);
+    [rms,reconIm] = DCT_main(im, quality, blockSize, 0, parallel);
 end
 
 % Display output image (outputPane) & RMS error
@@ -215,6 +216,20 @@ noLevels = round(abs(str2double(content)));
 
 
 function noLevels_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function qualityTxt_Callback(hObject, eventdata, handles)
+
+global quality;
+content = cellstr(get(hObject,'String'));
+quality = abs(str2double(content));
+
+function qualityTxt_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
