@@ -1,7 +1,4 @@
-function [rms, trans_T] = DCT_main(imName, comp, blockSize, showImages, parallel)
-
-im = imread(imName);
-close all
+function [rms, trans_T] = DCT_main(im, comp, blockSize, showImages, parallel)
 
 padX = mod(size(im,1), blockSize);
 padY = mod(size(im,2), blockSize);
