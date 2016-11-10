@@ -23,12 +23,16 @@ end
 % --- Executes just before sampleGUI is made visible.
 function sampleGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
-global im1 im2 im compMethodStr blockSize compRatio waveletStr noLevels;
+global im1 im2 im3 im4 im5 im6 im compMethodStr blockSize compRatio waveletStr noLevels;
 
 % Display Input Image
 handles.output = hObject;
 im1 = imread('sampleImages\Chalmers.jpg');
 im2 = imread('sampleImages\Penny.jpg');
+im3 = imread('sampleImages\Dank.jpg');
+im4 = imread('sampleImages\Glow.tif');
+im5 = imread('sampleImages\Rock.tif');
+im6 = imread('sampleImages\Line.bmp');
 im = im1;
 axes(handles.inputPane)
 image(im)
@@ -66,14 +70,22 @@ varargout{1} = handles.output;
 function inputImage_Callback(hObject, eventdata, handles)
 
 % Set current image (im) and display
-global im1 im2 im;
+global im1 im2 im3 im4 im5 im6 im;
 contents = cellstr(get(hObject,'String'));
 selPicName = contents{get(hObject,'Value')};
 axes(handles.inputPane)
 if selPicName(1) == 'C'
     im = im1;
-else
+elseif selPicName(1) == 'P'
     im = im2;
+elseif selPicName(1) == 'D'
+    im = im3;
+elseif selPicName(1) == 'G'
+    im = im4;
+elseif selPicName(1) == 'R'
+    im = im5;
+else
+    im = im6;
 end
 image(im)
 axis off
