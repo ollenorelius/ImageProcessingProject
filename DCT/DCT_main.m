@@ -1,4 +1,4 @@
-function [rms, imRec] = DCT_main(im, comp, blockSize, showImages, parallel)
+function [rms, imRec, trans_T] = DCT_main(im, comp, blockSize, showImages, parallel)
 
 padX = mod(size(im,1), blockSize);
 padY = mod(size(im,2), blockSize);

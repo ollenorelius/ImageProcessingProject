@@ -192,16 +192,20 @@ global im compMethodStr blockSize compRatio waveletStr noLevels quality;
 
 % Call compression method
 if compMethodStr(1) == 'W' 
-    [rms,reconIm] = WPT_main(im, compRatio, waveletStr, noLevels);
+    [rms,reconIm, coeffIm] = WPT_main(im, compRatio, waveletStr, noLevels);
 else 
     parallel = 0;
-    [rms,reconIm] = DCT_main(im, quality, blockSize, 0, parallel);
+    [rms,reconIm, coeffIm] = DCT_main(im, quality, blockSize, 0, parallel);
 end
 
-% Display output image (outputPane) & RMS error
+% Display output image (outputPane), coefficients & RMS error
 set(handles.rmsTxt,'String',num2str(rms))
 axes(handles.outputPane)
 image(reconIm)
+axis off
+axis image
+axes(handles.coeffPane)
+image(coeffIm)
 axis off
 axis image
 

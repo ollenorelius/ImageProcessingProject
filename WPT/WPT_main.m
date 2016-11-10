@@ -1,4 +1,4 @@
-function [rms,reconIm,comprsdIm] = WPT_main(ogIm,comp,waveletStr, noLevels)
+function [rms,reconIm,coeffIm] = WPT_main(ogIm,comp,waveletStr, noLevels)
 
 [Rf,Df] = biorwavf(waveletStr);
 [decompLo,decompHi,reconLo,reconHi] = biorfilt(Df,Rf);
@@ -34,12 +34,12 @@ rms = sqrt(errorSq);
 
 %reconIm = uint8(reconIm(1:ogIm(1),1:ogIm(2),:));
 
-figure(1)
-imagesc(coeffIm)
-title('Wavelet Coefficients')
-figure(2)
-imagesc(comprsdIm)
-title('Compressed wavelet coefficients')
+% figure(1)
+% imagesc(coeffIm)
+% title('Wavelet Coefficients')
+% figure(2)
+% imagesc(comprsdIm)
+% title('Compressed wavelet coefficients')
 
 
 end
