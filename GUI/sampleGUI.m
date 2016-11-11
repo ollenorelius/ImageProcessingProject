@@ -233,6 +233,8 @@ global quality;
 content = cellstr(get(hObject,'String'));
 quality = abs(str2double(content));
 
+
+
 function qualityTxt_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))

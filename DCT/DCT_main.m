@@ -1,5 +1,9 @@
 function [rms, imRec, trans_T] = DCT_main(im, comp, blockSize, showImages, parallel)
 
+if parallel==false
+    waitBar = waitbar(0,'Applying DCT compression');
+end
+
 padX = mod(size(im,1), blockSize);
 padY = mod(size(im,2), blockSize);
 
@@ -23,6 +27,7 @@ if(parallel == true) %Decomposition
     end
 else
     for i = 1:nChan
+        waitbar(i/6)
         imPart = im(:,:,i);
         
         trans(:,:,i) = blockproc(imPart, [blockSize blockSize], @DCT_decomp);
@@ -43,6 +48,7 @@ if(parallel == true) %Quantization
     end
 else
     for i = 1:nChan
+        waitbar((i+3)/6)
         transP = trans(:,:,i);
       
         trans(:,:,i) = round(blockproc(transP, [blockSize blockSize], compression));
@@ -94,5 +100,7 @@ end
 %imwrite(imRec, gray(256), sprintf('imDump/DCT_%ix%i_%ixc_%s.png', blockSize, blockSize, comp, imName));
 error = abs(im-imRec);
 rms = sqrt(mean(mean(mean(error.^2))));
+
+close(waitBar)
 
 end
